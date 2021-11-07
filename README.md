@@ -16,16 +16,13 @@ Automated LEGO track mockup for LEGO trains
 
 
 ## General Information
-- Provide general information about your project here.
-- What problem does it (intend to) solve?
-- What is the purpose of your project?
-- Why did you undertake it?
-<!-- You don't have to answer all the questions - just the ones relevant to your project. -->
+
+LEGO_train_track_mockup is a project inspired by the exhibition of LEGO bricks and the desire to learn how to program Arduino microcontrollers.
 
 
 ## Technologies Used
-- Tech 1 - version 1.0
-- Tech 2 - version 2.0
+- Arduino IDE version 1.8.51.0 from Arduino LLC
+- Arduino NANO V3.0 16MHz – ATmega328P – CH340
 - Tech 3 - version 3.0
 
 
@@ -55,7 +52,7 @@ Provide various use cases and code examples here.
 
 
 ## Project Status
-Project is: _in progress_ / _complete_ / _no longer being worked on_. If you are no longer working on it, provide reasons why.
+Project is: IN PROGRESS.
 
 
 ## Room for Improvement
@@ -78,7 +75,7 @@ Give credit here.
 
 
 ## Contact
-Created by [@flynerdpl](https://www.flynerd.pl/) - feel free to contact me!
+Created by [Jakub Kosiorek](https://www.linkedin.com/in/jakubkosiorek/) - feel free to contact me!
 
 
 <!-- Optional -->
