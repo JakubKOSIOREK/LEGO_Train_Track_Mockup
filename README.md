@@ -1,19 +1,13 @@
 # LEGO_train_track_mockup
 Automated LEGO track mockup for LEGO trains
-![LEGOPoweredUp](./img/OIP.jpg)![Arduino](./img/arduino-logo.png)
+![LEGOPoweredUp](./img/OIP.jpg)	![Arduino](./img/arduino-logo.png)
 
 
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
-* [Features](#features)
-* [Screenshots](#screenshots)
-* [Setup](#setup)
-* [Usage](#usage)
 * [Project Status](#project-status)
-* [Room for Improvement](#room-for-improvement)
 * [Acknowledgements](#acknowledgements)
 * [Contact](#contact)
-<!-- * [License](#license) -->
 
 
 ## General Information
@@ -22,65 +16,34 @@ LEGO_train_track_mockup is a project inspired by the exhibition of LEGO bricks a
 
 
 ## Technologies Used
-- Arduino IDE version 1.8.51.0 from Arduino LLC
-- Arduino NANO V3.0 16MHz – ATmega328P – CH340
-- Tech 3 - version 3.0
+- Arduino IDE version 1.8.51.0 from [Arduino LLC](https://www.arduino.cc/)
+- [Arduino NANO V3.0 16MHz – ATmega328P – CH340](https://hobby-store.pl/)
+- [Arduino Nano IO terminal screw connectors](https://sklep.msalamon.pl/produkt/arduino-nano-terminal-io-shield/)
+- [Triple Switch R40](https://trixbrix.eu/en_US/p/Triple-Switch-R40/60)
+- [Left Switch Servo Motor](https://trixbrix.eu/en_US/p/Left-Switch-Servo-Motor/143)
+- [RightSwitch Servo Motor](https://trixbrix.eu/en_US/p/Right-Switch-Servo-Motor/142)
+- [Train Signal Mast with LEDs](https://trixbrix.eu/en_US/p/Train-Signal-Mast-with-LEDs/145)
+- Neodymium magnets 5x2mm
+- Reed switches 14x2mm NO
+- LEGO 60198 train set
+- LEGO 60052 train set
+- LEGO 7939 train set
 
 
-## Features
-List the ready features here:
-- Awesome feature 1
-- Awesome feature 2
-- Awesome feature 3
-
-
-## Screenshots
-![Example screenshot](./img/screenshot.png)
-<!-- If you have screenshots you'd like to share, include them here. -->
-
-
-## Setup
-What are the project requirements/dependencies? Where are they listed? A requirements.txt or a Pipfile.lock file perhaps? Where is it located?
-
-Proceed to describe how to install / setup one's local environment / get started with the project.
-
-
-## Usage
-How does one go about using it?
-Provide various use cases and code examples here.
-
-`write-your-code-here`
 
 
 ## Project Status
 Project is: IN PROGRESS.
 
 
-## Room for Improvement
-Include areas you believe need improvement / could be improved. Also add TODOs for future development.
-
-Room for improvement:
-- Improvement to be done 1
-- Improvement to be done 2
-
-To do:
-- Feature to be added 1
-- Feature to be added 2
-
 
 ## Acknowledgements
-Give credit here.
-- This project was inspired by...
-- This project was based on [this tutorial](https://www.example.com).
-- Many thanks to...
+
+- this design was inspired by [Polish Modular Layout H0](https://pmmh0.pl/pmm-h0-anglia/)
+  and more specifically by the Wysoka station model [part 1](https://pmmh0.pl/elektronika-w-modelarstwie-kolejowym-mala-stacja-kolejowa-czesc-1/), [part 2](https://pmmh0.pl/elektronika-w-modelarstwie-kolejowym-mala-stacja-kolejowa-czesc-2/), [part 3](https://pmmh0.pl/elektronika-w-modelarstwie-kolejowym-mala-stacja-kolejowa-czesc-3/), [part 4](https://pmmh0.pl/elektronika-w-modelarstwie-kolejowym-mala-stacja-kolejowa-czesc-4/) 
+- This project was based on [FORBOT arduino basics course ](https://forbot.pl/blog//kurs-arduino-podstawy-programowania-spis-tresci-kursu-id5290).
+- Many thanks to my son Stanisław for his understanding and patience when borrowing the LEGO locomotives for testing
 
 
 ## Contact
 Created by [Jakub Kosiorek](https://www.linkedin.com/in/jakubkosiorek/) - feel free to contact me!
-
-
-<!-- Optional -->
-<!-- ## License -->
-<!-- This project is open source and available under the [... License](). -->
-
-<!-- You don't have to include all sections - just the one's relevant to your project -->
