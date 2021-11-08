@@ -1,5 +1,6 @@
 # LEGO_train_track_mockup
 Automated LEGO track mockup for LEGO trains
+![LEGOPoweredUp](./img/OIP.jpg)
 
 
 * [General Info](#general-information)
