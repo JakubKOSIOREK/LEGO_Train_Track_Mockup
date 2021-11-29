@@ -66,7 +66,7 @@ void setup() {                  //INITIAL SETTINGS
   digitalWrite(led2GREEN, LOW);
   digitalWrite(led3RED,   LOW);
   digitalWrite(led3GREEN, LOW);
-    
+  
   servoL.attach(servoL_Pin);
   servoP.attach(servoP_Pin);
   servoL.write(58);
@@ -74,19 +74,21 @@ void setup() {                  //INITIAL SETTINGS
   delay(100);
   servoL.detach();
   servoP.detach();
+  
+  
+  
+  
 
-  Serial.println(91000);  //SECTION A READY TO WORK
-  delay(500);
     
 } //  end void setup()
 
-void TxRxData(){                //TRANSMISJA DANYCH PO UART
+void TxRxData(){                // TxRxData TRANSMISION
   
   data = Serial.parseInt();
   delay(10);
 
-  //  ROZJAZD
-  if (data == 1010){  //TOR 1 servoL na wprost, servoP na bok
+  if (data == 0013){  // TRACK 1 ON-LINE
+    
     servoL.attach(servoL_Pin);
     servoP.attach(servoP_Pin);
     for(posServoL =100; posServoL >58; posServoL -=1){
@@ -101,18 +103,18 @@ void TxRxData(){                //TRANSMISJA DANYCH PO UART
     servoL.detach();
     servoP.detach();
     
-    //SEMAFORY GDY TOR 1 ON-LINE
-    digitalWrite(led1RED,   HIGH);
-    digitalWrite(led1GREEN, LOW);
-    digitalWrite(led2RED,   LOW);
-    digitalWrite(led2GREEN, HIGH);
-    digitalWrite(led3RED,   LOW);
-    digitalWrite(led3GREEN, HIGH);
-    
-    Serial.println(91010);
-  } //end 1010
+    //TRACK 1 ON-LINE SEMAPHORS
+    digitalWrite(led1RED,   HIGH);  // SEMAPHOR TRACK 1 RED   OFF
+    digitalWrite(led1GREEN, LOW);   // SEMAPHOR TRACK 1 GREEN ON
+    digitalWrite(led2RED,   LOW);   // SEMAPHOR TRACK 2 RED   ON
+    digitalWrite(led2GREEN, HIGH);  // SEMAPHOR TRACK 2 GREEN OFF
+    digitalWrite(led3RED,   LOW);   // SEMAPHOR TRACK 3 RED   ON
+    digitalWrite(led3GREEN, HIGH);  // SEMAPHOR TRACK 3 GREEN OFF
 
-  if (data == 1020){  //TOR 2 servoL na wprost, servoP na wprost
+  } //end 0013
+
+  if (data == 0023){  // TRACK 2 ON-LINE
+    
     servoL.attach(servoL_Pin);
     servoP.attach(servoP_Pin);
     for(posServoL =100; posServoL >58; posServoL -=1){
@@ -127,18 +129,18 @@ void TxRxData(){                //TRANSMISJA DANYCH PO UART
     servoL.detach();
     servoP.detach();
 
-    //SEMAFORY GDY TOR 2 ON-LINE
-    digitalWrite(led1RED,   LOW);
-    digitalWrite(led1GREEN, HIGH);
-    digitalWrite(led2RED,   HIGH);
-    digitalWrite(led2GREEN, LOW);
-    digitalWrite(led3RED,   LOW);
-    digitalWrite(led3GREEN, HIGH);
-    
-    Serial.println(91020);
-  } //end 1020
+    //TRACK 2 ON-LINE SEMAPHORS
+    digitalWrite(led1RED,   LOW);   // SEMAPHOR TRACK 1 RED   ON
+    digitalWrite(led1GREEN, HIGH);  // SEMAPHOR TRACK 1 GREEN OFF
+    digitalWrite(led2RED,   HIGH);  // SEMAPHOR TRACK 2 RED   OFF
+    digitalWrite(led2GREEN, LOW);   // SEMAPHOR TRACK 2 GREEN ON
+    digitalWrite(led3RED,   LOW);   // SEMAPHOR TRACK 3 RED   ON
+    digitalWrite(led3GREEN, HIGH);  // SEMAPHOR TRACK 3 GREEN OFF
 
-  if (data == 1030){  //TOR 3 servoL na bok, servoP na wprost
+  } //end 0023
+
+  if (data == 0033){  // TRACK 3 ON-LINE
+    
     servoL.attach(servoL_Pin);
     servoP.attach(servoP_Pin);
     for(posServoL =58; posServoL <100; posServoL +=1){
@@ -153,66 +155,51 @@ void TxRxData(){                //TRANSMISJA DANYCH PO UART
     servoL.detach();
     servoP.detach();
 
-    //SEMAFORY GDY TOR 3 ON-LINE
-    digitalWrite(led1RED,   LOW);
-    digitalWrite(led1GREEN, HIGH);
-    digitalWrite(led2RED,   LOW);
-    digitalWrite(led2GREEN, HIGH);
-    digitalWrite(led3RED,   HIGH);
-    digitalWrite(led3GREEN, LOW);
+    //TRACK 3 ON-LINE SEMAPHORS
+    digitalWrite(led1RED,   LOW);   // SEMAPHOR TRACK 1 RED   ON
+    digitalWrite(led1GREEN, HIGH);  // SEMAPHOR TRACK 1 GREEN OFF
+    digitalWrite(led2RED,   LOW);   // SEMAPHOR TRACK 2 RED   ON
+    digitalWrite(led2GREEN, HIGH);  // SEMAPHOR TRACK 2 GREEN OFF
+    digitalWrite(led3RED,   HIGH);  // SEMAPHOR TRACK 3 RED   OFF
+    digitalWrite(led3GREEN, LOW);   // SEMAPHOR TRACK 3 GREEN ON
     
-    Serial.println(91030);
-  } //end 1030
+  } //end 0033
 
-  if (data == 2011){  //SEMAFOR 1 NA ZIELONY
-    digitalWrite(led1RED,   HIGH);
-    digitalWrite(led1GREEN, LOW);
-   } //end 2011
-
-  if (data == 2012){  //SEMAFOR 2 NA ZIELONY
-    digitalWrite(led2RED,   HIGH);
-    digitalWrite(led2GREEN, LOW);
-   } //end 2012
-
-  if (data == 2013){  //SEMAFOR 3 NA ZIELONY
-    digitalWrite(led3RED,   HIGH);
-    digitalWrite(led3GREEN, LOW);
-  } //end 2013
-      
+     
 } // end void TxRxData()
 
 
 void loop() {                   // WORK IN LOOP
 
-
- if(Serial.available() > 0) TxRxData(); //PRZEJŚCIE DO FUNKCJI void TxRxData()
+ if(Serial.available() > 0) TxRxData();     // EXECUTE void TxRxData()
   
-
-   if (digitalRead(sensor_Tor1) == LOW){    //ZMIANA SEMAFOR 1 NA CZERWONE
-      digitalWrite(led1RED,   LOW);
-      digitalWrite(led1GREEN, HIGH);
-      Serial.println(91012);
+   if (digitalRead(sensor_Tor1) == LOW){    // SENSOR TRACK 1 IMPULSE 91013
+      digitalWrite(led1RED,   LOW);   // SEMAPHOR TRACK 1 RED   ON
+      digitalWrite(led1GREEN, HIGH);  // SEMAPHOR TRACK 1 GREEN OFF
+      Serial.println(91013);
       delay(500);
     } // end sensor_Tor1 == LOW
    
-   if (digitalRead(sensor_Tor2) == LOW){    //ZMIANA SEMAFOR 2 NA CZERWONE
-    digitalWrite(led2RED,   LOW);
-    digitalWrite(led2GREEN, HIGH);
-    Serial.println(91022);
+   if (digitalRead(sensor_Tor2) == LOW){    // SENSOR TRACK 2 IMPULSE 91023
+    digitalWrite(led2RED,   LOW);   // SEMAPHOR TRACK 2 RED   ON
+    digitalWrite(led2GREEN, HIGH);  // SEMAPHOR TRACK 2 GREEN OFF
+    Serial.println(91023);
     delay(500);
     } // end sensor_Tor2 == LOW
 
-   if (digitalRead(sensor_Tor3) == LOW){    //ZMIANA SEMAFOR 3 NA CZERWONE
-    digitalWrite(led3RED,   LOW);
-    digitalWrite(led3GREEN, HIGH);
-    Serial.println(91032);
+   if (digitalRead(sensor_Tor3) == LOW){    // SENSOR TRACK 3 IMPULSE 91033
+    digitalWrite(led3RED,   LOW);   // SEMAPHOR TRACK 3 RED   ON
+    digitalWrite(led3GREEN, HIGH);  // SEMAPHOR TRACK 3 GREEN OFF
+    Serial.println(91033);
     delay(500);
     } // end sensor_Tor3 == LOW
 
+
+   
 } //  end void loop()
 
-
-bool isSensorLow(int sensor){   //CONTACT VIBRATION PHENOMENO ELIMINATION
+bool isSensorLow(int sensor){   // CONTACT VIBRATION PHENOMENO ELIMINATION
+  
   if (digitalRead(sensor) == LOW){
     delay(delayIsSensorLow);
     if (digitalRead(sensor) == LOW){
