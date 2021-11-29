@@ -55,15 +55,13 @@ void setup() {                  // INITIAL SETTINGS
     
 } //  end void setup()
 
-void TxRxData(){                // TRANSMISJA DANYCH PO UART
+void TxRxData(){                // TxRxData TRANSMISION
   
   data = Serial.parseInt();
   delay(10);
 
-
-  //  ROZJAZD
-
-  if (data == 1010){  //TOR 1 servoL na wprost, servoP na bok
+  if (data == 0013){  // TRACK 1 ON-LINE
+    
     servoL.attach(servoL_Pin);
     servoP.attach(servoP_Pin);
     for(posServoL =58; posServoL <100; posServoL +=1){
@@ -77,11 +75,10 @@ void TxRxData(){                // TRANSMISJA DANYCH PO UART
     delay(100);
     servoL.detach();
     servoP.detach();
-//    Serial.println(92010);
-//    delay(500);
-  } //end 1011
 
-  if (data == 1020){  //TOR 2 servoL na wprost, servoP na wprost
+  } //end 0013
+
+  if (data == 0023){  // TRACK 2 ON-LINE
     servoL.attach(servoL_Pin);
     servoP.attach(servoP_Pin);
     for(posServoL =100; posServoL >58; posServoL -=1){
@@ -95,11 +92,10 @@ void TxRxData(){                // TRANSMISJA DANYCH PO UART
     delay(100);
     servoL.detach();
     servoP.detach();
-//    Serial.println(92020);
-//    delay(500);
-  } //end 1012
+
+  } //end 0023
   
-  if (data == 1030){  //TOR 3 servoL na bok, servoP na wprost
+  if (data == 0033){  // TRACK 3 ON-LINE
     servoL.attach(servoL_Pin);
     servoP.attach(servoP_Pin);
     for(posServoL =100; posServoL >58; posServoL -=1){
@@ -113,38 +109,35 @@ void TxRxData(){                // TRANSMISJA DANYCH PO UART
     delay(100);
     servoL.detach();
     servoP.detach();
-//    Serial.println(92030);
-//    delay(500);
-  } //end 1013
+
+  } //end 0033
 
 } // end void TxRxData()
 
 
 void loop() {                   // WORK IN LOOP
 
+ if(Serial.available() > 0) TxRxData();   // EXECUTE void TxRxData()
 
- if(Serial.available() > 0) TxRxData(); //PRZEJŚCIE DO FUNKCJI void TxRxData()
-  
-
- if (digitalRead(sensor_Tor1) == LOW){    //ZMIANA SEMAFOR 1 NA ZIELONE
-    Serial.println(92011);
+ if (digitalRead(sensor_Tor1) == LOW){    // SENSOR TRACK 1 IMPULSE 92013
+    Serial.println(92013);
     delay(500);
     } // end sensor_Tor1 == LOW
 
- if (digitalRead(sensor_Tor2) == LOW){    //ZMIANA SEMAFOR 1 NA ZIELONE
-    Serial.println(92012);
+ if (digitalRead(sensor_Tor2) == LOW){    // SENSOR TRACK 2 IMPULSE 92023
+    Serial.println(92023);
     delay(500);
     } // end sensor_Tor2 == LOW
 
- if (digitalRead(sensor_Tor3) == LOW){    //ZMIANA SEMAFOR 1 NA ZIELONE
-    Serial.println(92013);
+ if (digitalRead(sensor_Tor3) == LOW){    // SENSOR TRACK 3 IMPULSE 92033
+    Serial.println(92033);
     delay(500);
     } // end sensor_Tor3 == LOW
 
 } //  end void loop()
 
-
 bool isSensorLow(int sensor){   // CONTACT VIBRATION PHENOMENO ELIMINATION
+  
   if (digitalRead(sensor) == LOW){
     delay(delayIsSensorLow);
     if (digitalRead(sensor) == LOW){
