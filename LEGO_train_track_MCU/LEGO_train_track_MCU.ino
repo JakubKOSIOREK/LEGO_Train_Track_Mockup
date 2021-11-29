@@ -19,11 +19,7 @@ void setup() {                  // INITIAL SETTINGS
   //COMM
   Serial.begin(38400);
   delay(1000);
-  Serial.println(90000);
-  delay(5000);
-  Serial.println(1020);   //TOR 2 servoL na wprost, servoP na wprost
-
-
+  
   //INPUTS
   pinMode (pushButton_1, INPUT_PULLUP);
   pinMode (pushButton_2, INPUT_PULLUP);
@@ -31,52 +27,33 @@ void setup() {                  // INITIAL SETTINGS
       
 } //  end void setup()
 
-void TxRxData(){                // TRANSMISJA DANYCH PO UART
+void TxRxData(){                // TxRxData TRANSMISION
   
   data = Serial.parseInt();
   delay(10);
 
-  //***GDY ODPOWIEDŹ Z SEKCJI A***//
-  
-  if (data == 91010){   // TOR 1 ON-LINE
+//***SECTION A RECEIVED DATA***//
 
+  if (data == 91001){ // SECTION A OFF-LINE
+    
   }
 
-  if (data == 91020){   // TOR 2 ON-LINE
-
+  if (data == 91002){ // SECTION A ON-LINE
+    
   }
 
-  if (data == 91030){   // TOR 3 ON-LINE
-    Serial.println(1031);
+//***SECTION B RECEIVED DATA***//
+
+  if (data == 92013){     // SENSOR TRACK 1 0013
+    Serial.println(0013);
   }
 
-  if (data == 91012){   // SEMAFOR 1 CZERWONY
-
+  if (data == 92023){     // SENSOR TRACK 2 0023
+    Serial.println(0023);
   }
 
-  if (data == 91022){   // SEMAFOR 2 CZERWONY
-
-  }
-
-  if (data == 91032){   // SEMAFOR 3 CZERWONY
-
-  }
-
-
-  //***GDY ODPOWIEDŹ Z SEKCJI B***//
-  
-  if (data == 92011){   //SEMAFOR 1 NA ZIELONY
-    Serial.println(2011);
-  }
-  
-  if (data == 92012){   //SEMAFOR 2 NA ZIELONY
-    Serial.println(2012);
-    delay(500);
-  }
-
-  if (data == 92013){   //SEMAFOR 3 NA ZIELONY
-    Serial.println(2013);
-    delay(500);
+  if (data == 92033){     // SENSOR TRACK 3 0033
+    Serial.println(0033);
   }
 
 } // end void TxRxData()
@@ -84,31 +61,30 @@ void TxRxData(){                // TRANSMISJA DANYCH PO UART
 
 void loop() {                   // WORK IN LOOP
 
-  if(Serial.available() > 0) TxRxData(); //PRZEJŚCIE DO FUNKCJI void TxRxData()
+  if(Serial.available() > 0) TxRxData(); // EXECUTE void TxRxData()
   
-  if (digitalRead(pushButton_1)==LOW){  //TOR 1
+  if (digitalRead(pushButton_1)==LOW){   // PUSHBUTTON TRACK 1 IMPULSE 0013
       delay(500);
-      Serial.println(1010);
+      Serial.println(0013);
       }else{
-  }
+  } // end pushButton_1 == LOW
 
-  if (digitalRead(pushButton_2)==LOW){ //TOR 2
+  if (digitalRead(pushButton_2)==LOW){   // PUSHBUTTON TRACK 2 IMPULSE 0023
       delay(500);
-      Serial.println(1020);
+      Serial.println(0023);
       }else{
-  }
+  } // end pushButton_2 == LOW
 
-  if (digitalRead(pushButton_3)==LOW){ //TOR 3
+  if (digitalRead(pushButton_3)==LOW){   // PUSHBUTTON TRACK 3 IMPULSE 0033
       delay(500);
-      Serial.println(1030);
+      Serial.println(0033);
       }else{
-  }
-
+  } // end pushButton_3 == LOW
 
 } //  end void loop()
 
-
-bool isSensorLow(int sensor){   //CONTACT VIBRATION PHENOMENO ELIMINATION
+bool isSensorLow(int sensor){   // CONTACT VIBRATION PHENOMENO ELIMINATION
+  
   if (digitalRead(sensor) == LOW){
     delay(delayIsSensorLow);
     if (digitalRead(sensor) == LOW){
