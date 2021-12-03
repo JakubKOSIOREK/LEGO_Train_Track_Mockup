@@ -8,25 +8,25 @@
 
 //SENSORS
 
-#define sensor_Tor1  2
-#define sensor_Tor2  3
-#define sensor_Tor3  4
+#define sensorTrack1  2
+#define sensorTrack2  3
+#define sensorTrack3  4
 
 
 //SERVO
 
 Servo servoL;
-Servo servoP;
+Servo servoR;
 int servoL_Pin = 5;
-int servoP_Pin = 6;
+int servoR_Pin = 6;
 int posServoL = 58;
-int posServoP = 100;
+int posServoR = 100;
 
 
 //VARIABLES
 
 int delayIsSensorLow = 20;
-int data;
+long data;
 
 
 void setup() {                  // INITIAL SETTINGS
@@ -36,22 +36,21 @@ void setup() {                  // INITIAL SETTINGS
   delay(1000);
    
   //INPUTS
-  pinMode(sensor_Tor1, INPUT_PULLUP);
-  pinMode(sensor_Tor2, INPUT_PULLUP);
-  pinMode(sensor_Tor3, INPUT_PULLUP);
+  pinMode(sensorTrack1, INPUT_PULLUP);
+  pinMode(sensorTrack2, INPUT_PULLUP);
+  pinMode(sensorTrack3, INPUT_PULLUP);
   
   //SETTINGS
 
   servoL.attach(servoL_Pin);
-  servoP.attach(servoP_Pin);
+  servoR.attach(servoR_Pin);
   servoL.write(58);
-  servoP.write(100);
+  servoR.write(100);
   delay(100);
   servoL.detach();
-  servoP.detach();
+  servoR.detach();
 
-  Serial.println(92000);
-  delay(500);
+  Serial.println("SECTION B ON-LINE");
     
 } //  end void setup()
 
@@ -60,57 +59,62 @@ void TxRxData(){                // TxRxData TRANSMISION
   data = Serial.parseInt();
   delay(10);
 
-  if (data == 0013){  // TRACK 1 ON-LINE
-    
+  if (data == 1014){  // TRACK 1 ON-LINE
+
+    // TRACK 1 SERVO
     servoL.attach(servoL_Pin);
-    servoP.attach(servoP_Pin);
+    servoR.attach(servoR_Pin);
     for(posServoL =58; posServoL <100; posServoL +=1){
       servoL.attach(servoL_Pin);
       servoL.write(posServoL);
     }
-    for(posServoP =58; posServoP <100; posServoP +=1){
-      servoP.attach(servoP_Pin);
-      servoP.write(posServoP);
+    for(posServoR =58; posServoR <100; posServoR +=1){
+      servoR.attach(servoR_Pin);
+      servoR.write(posServoR);
     }
     delay(100);
     servoL.detach();
-    servoP.detach();
+    servoR.detach();
+    
+  } //end TRACK 1 ON-LINE
 
-  } //end 0013
-
-  if (data == 0023){  // TRACK 2 ON-LINE
-    servoL.attach(servoL_Pin);
-    servoP.attach(servoP_Pin);
-    for(posServoL =100; posServoL >58; posServoL -=1){
-      servoL.attach(servoL_Pin);
-      servoL.write(posServoL);
-    }
-    for(posServoP =58; posServoP <100; posServoP +=1){
-      servoP.attach(servoP_Pin);
-      servoP.write(posServoP);
-    }
-    delay(100);
-    servoL.detach();
-    servoP.detach();
-
-  } //end 0023
+  if (data == 1024){  // TRACK 2 ON-LINE
   
-  if (data == 0033){  // TRACK 3 ON-LINE
+    // TRACK 2 SERVO
     servoL.attach(servoL_Pin);
-    servoP.attach(servoP_Pin);
+    servoR.attach(servoR_Pin);
     for(posServoL =100; posServoL >58; posServoL -=1){
       servoL.attach(servoL_Pin);
       servoL.write(posServoL);
     }
-    for(posServoP =100; posServoP >58; posServoP -=1){
-      servoP.attach(servoP_Pin);
-      servoP.write(posServoP);
+    for(posServoR =58; posServoR <100; posServoR +=1){
+      servoR.attach(servoR_Pin);
+      servoR.write(posServoR);
     }
     delay(100);
     servoL.detach();
-    servoP.detach();
+    servoR.detach();
+    
+  } //end TRACK 2 ON-LINE
+  
+  if (data == 1034){  // TRACK 3 ON-LINE
+    
+    // TRACK 3 SERVO  
+    servoL.attach(servoL_Pin);
+    servoR.attach(servoR_Pin);
+    for(posServoL =100; posServoL >58; posServoL -=1){
+      servoL.attach(servoL_Pin);
+      servoL.write(posServoL);
+    }
+    for(posServoR =100; posServoR >58; posServoR -=1){
+      servoR.attach(servoR_Pin);
+      servoR.write(posServoR);
+    }
+    delay(100);
+    servoL.detach();
+    servoR.detach();
 
-  } //end 0033
+  } //end TRACK 3 ON-LINE
 
 } // end void TxRxData()
 
@@ -119,22 +123,23 @@ void loop() {                   // WORK IN LOOP
 
  if(Serial.available() > 0) TxRxData();   // EXECUTE void TxRxData()
 
- if (digitalRead(sensor_Tor1) == LOW){    // SENSOR TRACK 1 IMPULSE 92013
-    Serial.println(92013);
+ if (digitalRead(sensorTrack1) == LOW){    // SENSOR TRACK 1 IMPULSE 2013
+    Serial.println(2013);
     delay(500);
-    } // end sensor_Tor1 == LOW
+    } // end sensorTrack1 == LOW
 
- if (digitalRead(sensor_Tor2) == LOW){    // SENSOR TRACK 2 IMPULSE 92023
-    Serial.println(92023);
+ if (digitalRead(sensorTrack2) == LOW){    // SENSOR TRACK 2 IMPULSE 2023
+    Serial.println(2023);
     delay(500);
-    } // end sensor_Tor2 == LOW
+    } // end sensorTrack2 == LOW
 
- if (digitalRead(sensor_Tor3) == LOW){    // SENSOR TRACK 3 IMPULSE 92033
-    Serial.println(92033);
-    delay(500);
-    } // end sensor_Tor3 == LOW
+ if (digitalRead(sensorTrack3) == LOW){    // SENSOR TRACK 3 IMPULSE 2033
+    Serial.println(2033);
+    delay(1000);
+    } // end sensorTrack3 == LOW
 
 } //  end void loop()
+
 
 bool isSensorLow(int sensor){   // CONTACT VIBRATION PHENOMENO ELIMINATION
   
