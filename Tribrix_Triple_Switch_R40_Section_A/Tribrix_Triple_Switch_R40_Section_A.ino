@@ -6,7 +6,7 @@
 #include<Servo.h>
 
 
-//SEMAPHORS
+//SEMAPHORES
 
 #define led1RED   7
 #define led1GREEN 8
@@ -45,7 +45,7 @@ unsigned long time;
 unsigned long flashTime = 500;
 
 
-void setup() {                  //INITIAL SETTINGS
+void setup() {                  // INITIAL SETTINGS
 
   //COMM
   Serial.begin(38400);
@@ -78,7 +78,8 @@ void setup() {                  //INITIAL SETTINGS
   digitalWrite(led2GREEN, HIGH);
   digitalWrite(led3RED,   HIGH);
   digitalWrite(led3GREEN, HIGH);
-  
+  delay(1000);
+    
   servoL.attach(servoL_Pin);
   servoR.attach(servoR_Pin);
   servoL.write(58);
@@ -87,58 +88,66 @@ void setup() {                  //INITIAL SETTINGS
   servoL.detach();
   servoR.detach();
 
+  // TRACK 2 ON-LINE SEMAPHORES
+  digitalWrite(led1RED,   LOW);   // SEMAPHOR TRACK 1 RED   ON
+  digitalWrite(led1GREEN, HIGH);  // SEMAPHOR TRACK 1 GREEN OFF
+  digitalWrite(led2RED,   HIGH);  // SEMAPHOR TRACK 2 RED   OFF
+  digitalWrite(led2GREEN, LOW);   // SEMAPHOR TRACK 2 GREEN ON
+  digitalWrite(led3RED,   LOW);   // SEMAPHOR TRACK 3 RED   ON
+  digitalWrite(led3GREEN, HIGH);  // SEMAPHOR TRACK 3 GREEN OFF
+  
   Serial.println("SECTION A ON-LINE");
-      
+
 } //  end void setup()
 
-void TxRxData(){                // TxRxData TRANSMISION
-  
+void TxRxData() {               // TxRxData TRANSMISION
+
   data = Serial.parseInt();
   delay(10);
 
-  if (data == 81012 || data == 1013){ // is SEMAPHOR TRACK 1 GREEN ON & RED OFF
-    if (digitalRead(led1GREEN) == LOW && (digitalRead(led1RED) == HIGH || digitalRead(led1RED) == LOW)){
-      Serial.println(10121);
-    }else{
-      Serial.println(10120);
+  if (data == 81011 || data == 1013) { // is SEMAPHOR TRACK 1 RED ON
+    if (digitalRead(led1RED) == LOW) {
+      Serial.println(10111);
+    } else {
+      Serial.println(10110);
     }
-  } // end is SEMAPHOR TRACK 1 GREEN ON & RED OFF
+  } // end is SEMAPHOR TRACK 1 RED ON
 
-  if (data == 81022 || data == 1023){ // is SEMAPHOR TRACK 2 GREEN ON & RED OFF
-    if (digitalRead(led2GREEN) == LOW && (digitalRead(led2RED) == HIGH || digitalRead(led2RED) == LOW)){
-      Serial.println(10221);
-    }else{
-      Serial.println(10220);
+  if (data == 81021 || data == 1023) { // is SEMAPHOR TRACK 2 RED ON
+    if (digitalRead(led2RED) == LOW) {
+      Serial.println(10211);
+    } else {
+      Serial.println(10210);
     }
-  } // end is SEMAPHOR TRACK 2 GREEN ON & RED OFF
+  } // end is SEMAPHOR TRACK 2 RED ON
 
-  if (data == 81032 || data == 1033){ // is SEMAPHOR TRACK 3 GREEN ON & RED OFF
-    if (digitalRead(led3GREEN) == LOW && (digitalRead(led3RED) == HIGH || digitalRead(led3RED) == LOW)){
-      Serial.println(10321);
-    }else{
-      Serial.println(10320);
+  if (data == 81031 || data == 1033) { // is SEMAPHOR TRACK 3 RED ON
+    if (digitalRead(led3RED) == LOW) {
+      Serial.println(10311);
+    } else {
+      Serial.println(10310);
     }
-  } // end is SEMAPHOR TRACK 3 GREEN ON & RED OFF
+  } // end is SEMAPHOR TRACK 3 RED ON
 
+  if (data == 1014) { // TRACK 1 ON-LINE
+    led1GREENflashing = 0;          // SEMAPHOR TRACK 1 GREEN STOP FLASHING
 
-  if (data == 1014){  // TRACK 1 ON-LINE
-  
     // TRACK 1 SERVO
     servoL.attach(servoL_Pin);
     servoR.attach(servoR_Pin);
-    for(posServoL =100; posServoL >58; posServoL -=1){
+    for (posServoL = 100; posServoL > 58; posServoL -= 1) {
       servoL.attach(servoL_Pin);
       servoL.write(posServoL);
     }
-    for(posServoR =100; posServoR >58; posServoR -=1){
+    for (posServoR = 100; posServoR > 58; posServoR -= 1) {
       servoR.attach(servoR_Pin);
       servoR.write(posServoR);
     }
     delay(100);
     servoL.detach();
     servoR.detach();
-    
-    // TRACK 1 ON-LINE SEMAPHORS
+
+    // TRACK 1 ON-LINE SEMAPHORES
     digitalWrite(led1RED,   HIGH);  // SEMAPHOR TRACK 1 RED   OFF
     digitalWrite(led1GREEN, LOW);   // SEMAPHOR TRACK 1 GREEN ON
     digitalWrite(led2RED,   LOW);   // SEMAPHOR TRACK 2 RED   ON
@@ -149,16 +158,17 @@ void TxRxData(){                // TxRxData TRANSMISION
     Serial.println(91014);
   } // end TRACK 1 ON-LINE
 
-  if (data == 1024){  // TRACK 2 ON-LINE
+  if (data == 1024) { // TRACK 2 ON-LINE
+    led2GREENflashing = 0;          // SEMAPHOR TRACK 2 GREEN STOP FLASHING
 
     // TRACK 2 SERVO
     servoL.attach(servoL_Pin);
     servoR.attach(servoR_Pin);
-    for(posServoL =100; posServoL >58; posServoL -=1){
+    for (posServoL = 100; posServoL > 58; posServoL -= 1) {
       servoL.attach(servoL_Pin);
       servoL.write(posServoL);
     }
-    for(posServoR =58; posServoR <100; posServoR +=1){
+    for (posServoR = 58; posServoR < 100; posServoR += 1) {
       servoR.attach(servoR_Pin);
       servoR.write(posServoR);
     }
@@ -166,7 +176,7 @@ void TxRxData(){                // TxRxData TRANSMISION
     servoL.detach();
     servoR.detach();
 
-    // TRACK 2 ON-LINE SEMAPHORS
+    // TRACK 2 ON-LINE SEMAPHORES
     digitalWrite(led1RED,   LOW);   // SEMAPHOR TRACK 1 RED   ON
     digitalWrite(led1GREEN, HIGH);  // SEMAPHOR TRACK 1 GREEN OFF
     digitalWrite(led2RED,   HIGH);  // SEMAPHOR TRACK 2 RED   OFF
@@ -177,16 +187,17 @@ void TxRxData(){                // TxRxData TRANSMISION
     Serial.println(91024);
   } //end TRACK 2 ON-LINE
 
-  if (data == 1034){  // TRACK 3 ON-LINE
+  if (data == 1034) { // TRACK 3 ON-LINE
+    led3GREENflashing = 0;          // SEMAPHOR TRACK 3 GREEN STOP FLASHING
 
     // TRACK 3 SERVO
     servoL.attach(servoL_Pin);
     servoR.attach(servoR_Pin);
-    for(posServoL =58; posServoL <100; posServoL +=1){
+    for (posServoL = 58; posServoL < 100; posServoL += 1) {
       servoL.attach(servoL_Pin);
       servoL.write(posServoL);
     }
-    for(posServoR =58; posServoR <100; posServoR +=1){
+    for (posServoR = 58; posServoR < 100; posServoR += 1) {
       servoR.attach(servoR_Pin);
       servoR.write(posServoR);
     }
@@ -194,7 +205,7 @@ void TxRxData(){                // TxRxData TRANSMISION
     servoL.detach();
     servoR.detach();
 
-    // TRACK 3 ON-LINE SEMAPHORS
+    // TRACK 3 ON-LINE SEMAPHORES
     digitalWrite(led1RED,   LOW);   // SEMAPHOR TRACK 1 RED   ON
     digitalWrite(led1GREEN, HIGH);  // SEMAPHOR TRACK 1 GREEN OFF
     digitalWrite(led2RED,   LOW);   // SEMAPHOR TRACK 2 RED   ON
@@ -205,75 +216,74 @@ void TxRxData(){                // TxRxData TRANSMISION
     Serial.println(91034);
   } //end TRACK 3 ON-LINE
 
-
-if (data == 1010){
-
-//  led1GREENflashing = 0 // OFF
-}
-
-
-
-
-
-//  if (data == 1003){  // which TRACK is available
-//    if(digitalRead(led1RED == LOW) && digitalRead(led1GREEN == LOW)){
-//      // to tor 1 zajęty
-//    }
-//  }
-
-
-
 } // end void TxRxData()
 
+void sectionAwork() {           // SEKTION A WORK
+
+  if (isSensorLow(sensorTrack1)) {      // SENSOR   TRACK 1 IMPULSE
+    led1GREENflashing = 1;              // SEMAPHOR TRACK 1 GREEN START FLASHING
+    if (digitalRead(led1RED == HIGH)) { // SEMAPHOR TRACK 1 RED ON
+      digitalWrite(led1RED, LOW);
+    }
+  } // end SENSOR   TRACK 1 IMPULSE
+
+  if (isSensorLow(sensorTrack2)) {      // SENSOR   TRACK 2 IMPULSE
+    led2GREENflashing = 1;              // SEMAPHOR TRACK 2 GREEN START FLASHING
+    if (digitalRead(led2RED == HIGH)) { // SEMAPHOR TRACK 2 RED ON
+      digitalWrite(led2RED, LOW);
+    }
+  } // end SENSOR   TRACK 2 IMPULSE
+
+  if (isSensorLow(sensorTrack3)) {      // SENSOR   TRACK 3 IMPULSE
+    led3GREENflashing = 1;              // SEMAPHOR TRACK 3 GREEN START FLASHING
+    if (digitalRead(led3RED == HIGH)) { // SEMAPHOR TRACK 3 RED ON
+      digitalWrite(led3RED, LOW);
+    }
+  } // end SENSOR   TRACK 3 IMPULSE
+
+} // end sectionAwork()
 
 void loop() {                   // WORK IN LOOP
 
- time = millis();
- 
- if(Serial.available() > 0) TxRxData();     // EXECUTE void TxRxData()
-  
-   if (digitalRead(sensorTrack1) == LOW){    // SENSOR TRACK 1 IMPULSE
-      if (digitalRead(led1RED == HIGH)){
-        digitalWrite(led1RED, LOW);
-        }else{}
-//          led1GREENflashing = 1; // ON
-        Serial.println(10111);
-    } // end SENSOR TRACK 1 IMPULSE 91013
-   
-   if (digitalRead(sensorTrack2) == LOW){    // SENSOR TRACK 2 IMPULSE
-      if (digitalRead(led2RED == HIGH)){
-        digitalWrite(led2RED, LOW);
-      }else{
-        
-      }
-    } // end SENSOR TRACK 2 IMPULSE 91023
+  time = millis();
 
-   if (digitalRead(sensorTrack3) == LOW){    // SENSOR TRACK 3 IMPULSE
-      if (digitalRead(led3RED == HIGH)){
-        digitalWrite(led3RED, LOW);
-      }else{
-        
-      }
-    } // end SENSOR TRACK 3 IMPULSE 91033
+  // EXECUTE void TxRxData()
+  if (Serial.available() > 0) TxRxData();
 
-  if (flashTime < time){                     // BLINKER setUP
+  // EXECUTE void sectionAwork()
+  if (isSensorLow(sensorTrack1) || isSensorLow(sensorTrack2) || isSensorLow(sensorTrack3)) sectionAwork();
+
+  // BLINKER setUP
+  if (flashTime < time) {
     blinker++;
     if (blinker > 1)blinker = 0;
     flashTime = time + 500;
-  }
+  } // end // BLINKER setUP
 
-//  if (led1GREENflashing == 1){               // FLASHIG SEMAPHOR 1 GREEN 
-//    if (blinker == 0) digitalWrite(led1GREEN , LOW);
-//    if (blinker == 1) digitalWrite(led1GREEN), HIGH);
-//  }
-  
+  // FLASHIG SEMAPHOR 1 GREEN
+  if (led1GREENflashing == 1) {
+    if (blinker == 0) digitalWrite(led1GREEN, LOW);
+    if (blinker == 1) digitalWrite(led1GREEN, HIGH);
+  } // end FLASHIG SEMAPHOR 1 GREEN
+
+  // FLASHIG SEMAPHOR 2 GREEN
+  if (led2GREENflashing == 1) {
+    if (blinker == 0) digitalWrite(led2GREEN, LOW);
+    if (blinker == 1) digitalWrite(led2GREEN, HIGH);
+  } // end FLASHIG SEMAPHOR 2 GREEN
+
+  // FLASHIG SEMAPHOR 3 GREEN
+  if (led3GREENflashing == 1) {
+    if (blinker == 0) digitalWrite(led3GREEN, LOW);
+    if (blinker == 1) digitalWrite(led3GREEN, HIGH);
+  } // end FLASHIG SEMAPHOR 3 GREEN
+
 } //  end void loop()
 
-bool isSensorLow(int sensor){   // CONTACT VIBRATION PHENOMENO ELIMINATION
-  
-  if (digitalRead(sensor) == LOW){
+bool isSensorLow(int sensor) {  // CONTACT VIBRATION PHENOMENO ELIMINATION
+  if (digitalRead(sensor) == LOW) {
     delay(delayIsSensorLow);
-    if (digitalRead(sensor) == LOW){
+    if (digitalRead(sensor) == LOW) {
       return true;
     }
   }

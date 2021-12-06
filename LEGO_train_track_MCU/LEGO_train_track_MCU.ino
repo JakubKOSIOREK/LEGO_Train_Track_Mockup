@@ -3,7 +3,7 @@
 
 //SENSORS
 
-#define sensorSectionA  12
+#define sensorToSectionA 2
 #define pushButton_1    4
 #define pushButton_2    7
 #define pushButton_3    8
@@ -23,10 +23,13 @@ void setup() {                  // INITIAL SETTINGS
   Serial.println("MCU ON-LINE");
   
   //INPUTS
-  pinMode (sensorSectionA, INPUT_PULLUP);
+  pinMode (sensorToSectionA, INPUT_PULLUP);
   pinMode (pushButton_1, INPUT_PULLUP);
   pinMode (pushButton_2, INPUT_PULLUP);
   pinMode (pushButton_3, INPUT_PULLUP);
+  pinMode (LED_BUILTIN, OUTPUT);
+
+  digitalWrite(LED_BUILTIN, LOW);
       
 } //  end void setup()
 
@@ -35,68 +38,72 @@ void TxRxData(){                // TxRxData TRANSMISION
   data = Serial.parseInt();
   delay(10);
 
-  if (data == 2013){     // SECTION B sensorTrack1 -> is SECTION A SEMAPHOR TRACK 1 GREEN ON & RED OFF -> 82012
-    Serial.println(81012);
+  if (data == 2013){     // SECTION B sensorTrack1 -> is SECTION A SEMAPHOR TRACK 1 RED ON -> 81011
+    Serial.println(81011);
   }
 
-  if (data == 2023){     // SECTION B sensorTrack2 -> is SECTION A SEMAPHOR TRACK 2 GREEN ON & RED OFF -> 82022
-    Serial.println(81022);
+  if (data == 2023){     // SECTION B sensorTrack2 -> is SECTION A SEMAPHOR TRACK 2 RED ON -> 81021
+    Serial.println(81021);
   }
 
-  if (data == 2033){     // SECTION B sensorTrack3 -> is SECTION A SEMAPHOR TRACK 3 GREEN ON & RED OFF -> 82032
-    Serial.println(81032);
+  if (data == 2033){     // SECTION B sensorTrack3 -> is SECTION A SEMAPHOR TRACK 3 RED ON -> 81031
+    Serial.println(81031);
   }
 
 
-  if (data == 10120){ // TRACK 1 to ON-LINE -> 1014
+  if (data == 10111){    // TRACK 1 to ON-LINE -> 1014
     Serial.println(1014);
   }
 
-  if (data == 10220){ // TRACK 2 to ON-LINE -> 1024
+  if (data == 10211){    // TRACK 2 to ON-LINE -> 1024
     Serial.println(1024);
   }
 
-  if (data == 10320){ // TRACK 3 to ON-LINE -> 1034
+  if (data == 10311){    // TRACK 3 to ON-LINE -> 1034
     Serial.println(1034);
   }
-
-
 
 } // end void TxRxData()
 
 
-void loop() {                   // WORK IN LOOP
+void sectionMCUwork() {           // SEKTION MCU WORK
 
-  if(Serial.available() > 0) TxRxData(); // EXECUTE void TxRxData()
-
-  if (digitalRead(sensorSectionA)==LOW){ // SENSOR A           IMPULSE 1003
+  if (isSensorLow(sensorToSectionA)){ // SENSOR MCU       IMPULSE 1003
       delay(500);
       Serial.println(1003);
-      }else{
-  } // end sensorSectionA == LOW
-  
-  if (digitalRead(pushButton_1)==LOW){   // PUSHBUTTON TRACK 1 IMPULSE 1013
+  } // end 1003
+
+  if (isSensorLow(pushButton_1)){     // PUSHBUTTON 1     IMPULSE 1013
       delay(500);
       Serial.println(1013);
-      }else{
-  } // end pushButton_1 == LOW
+  } // end 1013
 
-  if (digitalRead(pushButton_2)==LOW){   // PUSHBUTTON TRACK 2 IMPULSE 1023
+  if (isSensorLow(pushButton_2)){     // PUSHBUTTON 2     IMPULSE 1023
       delay(500);
       Serial.println(1023);
-      }else{
-  } // end pushButton_2 == LOW
+  } // end 1023
 
-  if (digitalRead(pushButton_3)==LOW){   // PUSHBUTTON TRACK 3 IMPULSE 1033
+  if (isSensorLow(pushButton_3)){     // PUSHBUTTON 3     IMPULSE 1033
       delay(500);
       Serial.println(1033);
-      }else{
-  } // end pushButton_3 == LOW
+  } // end 1033
+
+} // end sectionMCUwork()
+
+
+void loop() {                   // WORK IN LOOP
+
+  // EXECUTE void TxRxData()
+  if (Serial.available() > 0) TxRxData();
+
+  // EXECUTE void sectionAwork()
+  if (isSensorLow(sensorToSectionA) || isSensorLow(pushButton_1) || isSensorLow(pushButton_2) || isSensorLow(pushButton_3)) sectionMCUwork();
 
 } //  end void loop()
 
+
 bool isSensorLow(int sensor){   // CONTACT VIBRATION PHENOMENO ELIMINATION
-  
+
   if (digitalRead(sensor) == LOW){
     delay(delayIsSensorLow);
     if (digitalRead(sensor) == LOW){

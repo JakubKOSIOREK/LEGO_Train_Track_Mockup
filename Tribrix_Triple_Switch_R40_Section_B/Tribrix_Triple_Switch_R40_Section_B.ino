@@ -119,31 +119,39 @@ void TxRxData(){                // TxRxData TRANSMISION
 } // end void TxRxData()
 
 
-void loop() {                   // WORK IN LOOP
-
- if(Serial.available() > 0) TxRxData();   // EXECUTE void TxRxData()
-
- if (digitalRead(sensorTrack1) == LOW){    // SENSOR TRACK 1 IMPULSE 2013
+void sectionBwork(){        // SECTION B WORK
+  
+  if (isSensorLow(sensorTrack1)){   // SENSOR TRACK 1 IMPULSE 2013
     Serial.println(2013);
     delay(500);
     } // end sensorTrack1 == LOW
 
- if (digitalRead(sensorTrack2) == LOW){    // SENSOR TRACK 2 IMPULSE 2023
+ if (isSensorLow(sensorTrack2)){    // SENSOR TRACK 2 IMPULSE 2023
     Serial.println(2023);
     delay(500);
     } // end sensorTrack2 == LOW
 
- if (digitalRead(sensorTrack3) == LOW){    // SENSOR TRACK 3 IMPULSE 2033
+ if (isSensorLow(sensorTrack3)){    // SENSOR TRACK 3 IMPULSE 2033
     Serial.println(2033);
-    delay(1000);
+    delay(500);
     } // end sensorTrack3 == LOW
+    
+} // end sectionBwork()
+
+
+void loop() {                   // WORK IN LOOP
+
+  // EXECUTE void TxRxData()
+  if (Serial.available() > 0) TxRxData();
+
+  // EXECUTE void sectionAwork()
+  if (isSensorLow(sensorTrack1) || isSensorLow(sensorTrack2) || isSensorLow(sensorTrack3)) sectionBwork();
 
 } //  end void loop()
 
 
 bool isSensorLow(int sensor){   // CONTACT VIBRATION PHENOMENO ELIMINATION
-  
-  if (digitalRead(sensor) == LOW){
+if (digitalRead(sensor) == LOW){
     delay(delayIsSensorLow);
     if (digitalRead(sensor) == LOW){
       return true;
