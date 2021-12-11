@@ -302,7 +302,6 @@ void loop() {                   // WORK IN LOOP
 } //  end void loop()
 
 bool isSensorLow(int sensor) {  // CONTACT VIBRATION PHENOMENO ELIMINATION
-
   if (digitalRead(sensor) == LOW) {
     delay(delayIsSensorLow);
     if (digitalRead(sensor) == LOW) {
