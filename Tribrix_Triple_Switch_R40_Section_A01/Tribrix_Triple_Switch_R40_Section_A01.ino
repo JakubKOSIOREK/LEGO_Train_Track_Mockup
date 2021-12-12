@@ -83,11 +83,9 @@ void setup() {                  // SEKTION A01 INITIAL SETTINGS
   led1GREENflashing = 1;              // SEMAPHOR TRACK 01 GREEN START FLASHING
   led3GREENflashing = 1;              // SEMAPHOR TRACK 03 GREEN START FLASHING
   Serial.println("SECTION A01 ON-LINE");
-  sectionStatus();
+  sectionStatus();                    // EXECUTE void sectionStatus()
   digitalWrite(led2RED,   LOW);
-//  digitalWrite(led2GREEN, LOW);
-//  digitalWrite(led3RED,   LOW);      
-  TRACK_02_setUp();
+  TRACK_02_setUp();                   // EXECUTE void TRACK_02_setUp()
 
 } //  end void setup()
 
