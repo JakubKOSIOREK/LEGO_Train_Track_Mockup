@@ -73,8 +73,13 @@ void sensorLow(){               // SEKTION A02 SENSORS WORK
 } // end void sensorLow()
 
 void TxRxData(){                // TxRxData TRANSMISION
+  
   data = Serial.parseInt();
   delay(10);
+
+  if (data == 1013) TRACK_01_setUp();  // TRACK 1 ON-LINE
+  if (data == 1023) TRACK_02_setUp();  // TRACK 2 ON-LINE
+  if (data == 1033) TRACK_03_setUp();  // TRACK 3 ON-LINE
 
 } // end void TxRxData()
 
