@@ -36,6 +36,39 @@ void TxRxData(){                // TxRxData TRANSMISION
   data = Serial.parseInt();
   delay(10);
 
+  if (data == 91110){
+    Serial.println("SECTION A01 TRACK 01 STATUS = 0");
+  }
+  if (data == 91120){
+    Serial.println("SECTION A01 TRACK 02 STATUS = 0");
+  }
+  if (data == 91130){
+    Serial.println("SECTION A01 TRACK 03 STATUS = 0");
+  }
+  if (data == 91111){
+    Serial.println("SECTION A01 TRACK 01 STATUS = 1");
+  }
+  if (data == 91121){
+    Serial.println("SECTION A01 TRACK 02 STATUS = 1");
+  }
+  if (data == 91131){
+    Serial.println("SECTION A01 TRACK 03 STATUS = 1");
+  }
+  if (data == 91210){
+    Serial.println("SECTION A02 TRACK 01 STATUS = 0");
+    Serial.println("SECTION A02 TRACK 02 STATUS = 1");
+    Serial.println("SECTION A02 TRACK 03 STATUS = 1");
+  }
+  if (data == 91220){
+    Serial.println("SECTION A02 TRACK 01 STATUS = 1");
+    Serial.println("SECTION A02 TRACK 02 STATUS = 0");
+    Serial.println("SECTION A02 TRACK 03 STATUS = 1");
+  }
+  if (data == 91230){
+    Serial.println("SECTION A02 TRACK 01 STATUS = 1");
+    Serial.println("SECTION A02 TRACK 02 STATUS = 1");
+    Serial.println("SECTION A02 TRACK 03 STATUS = 0");
+  }
   if (data == 91213){     // SECTION A02 SENSOR TRACK 01 IMPULSE -> 1213 -> TRACK 01 ON-LINE
     Serial.println(1213);
   }
@@ -45,12 +78,14 @@ void TxRxData(){                // TxRxData TRANSMISION
   if (data == 91233){     // SECTION A02 SENSOR TRACK 03 IMPULSE -> 1233 -> TRACK 03 ON-LINE
     Serial.println(1233);
   }
-  if (data == 91151){
-    Serial.println("SECTION A OFF-LINE");
-  }
-  if (data == 91150){
-    Serial.println("SECTION A ON-LINE");
-  }
+
+
+  
+  
+  
+  
+  
+
 } // end void TxRxData()
 
 void sensorLow() {              // MCU SENSORS WORK
