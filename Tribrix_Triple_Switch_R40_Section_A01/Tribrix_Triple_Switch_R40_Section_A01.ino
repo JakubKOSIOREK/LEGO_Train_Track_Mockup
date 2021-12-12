@@ -142,9 +142,9 @@ void TxRxData() {               // TxRxData TRANSMISION
   data = Serial.parseInt();
   delay(10);
 
-  if(data == 1013 && data == 1213) TRACK_01_setUp();  // TRACK 01 ON LINE
-  if(data == 1023 && data == 1223) TRACK_02_setUp();  // TRACK 02 ON LINE
-  if(data == 1033 && data == 1233) TRACK_03_setUp();  // TRACK 02 ON LINE
+  if(data == 1013 || data == 1213) TRACK_01_setUp();  // TRACK 01 ON LINE
+  if(data == 1023 || data == 1223) TRACK_02_setUp();  // TRACK 02 ON LINE
+  if(data == 1033 || data == 1233) TRACK_03_setUp();  // TRACK 02 ON LINE
   
 } // end void TxRxData()
 
