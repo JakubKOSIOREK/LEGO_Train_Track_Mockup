@@ -89,7 +89,6 @@ void TRACK_01_setUp(){          // TRACK 01 ON-LINE
   servoL.detach();                                    // TUTN OFF SERVO L
   servoR.detach();                                    // TUTN OFF SERVO R
   Serial.println("TRACK 01 SWITCHED ON-LINE");
-  Serial.println(91210);
   trackStatus[0] = 0;                                 // TRACK 01 STATUS ON-LINE  
   trackStatus[1] = 1;                                 // TRACK 02 STATUS OFF-LINE
   trackStatus[2] = 1;                                 // TRACK 03 STATUS OFF-LINE  
@@ -109,7 +108,6 @@ void TRACK_02_setUp(){          // TRACK 02 ON-LINE
   servoL.detach();                                    // TUTN OFF SERVO L
   servoR.detach();                                    // TUTN OFF SERVO R
   Serial.println("TRACK 02 SWITCHED ON-LINE");
-  Serial.println(91220);
   trackStatus[0] = 1;                                 // TRACK 01 STATUS OFF-LINE  
   trackStatus[1] = 0;                                 // TRACK 02 STATUS ON-LINE
   trackStatus[2] = 1;                                 // TRACK 03 STATUS OFF-LINE  
@@ -129,7 +127,6 @@ void TRACK_03_setUp(){          // TRACK 03 ON-LINE
   servoL.detach();                                    // TUTN OFF SERVO L
   servoR.detach();                                    // TUTN OFF SERVO R
   Serial.println("TRACK 03 SWITCHED ON-LINE");
-  Serial.println(91230);
   trackStatus[0] = 1;                                 // TRACK 01 STATUS ON-LINE  
   trackStatus[1] = 1;                                 // TRACK 02 STATUS OFF-LINE
   trackStatus[2] = 0;                                 // TRACK 03 STATUS OFF-LINE  
