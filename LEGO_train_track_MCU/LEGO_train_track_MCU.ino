@@ -39,32 +39,30 @@ void TxRxData(){                // TxRxData TRANSMISION
   data = Serial.parseInt();
   delay(10);
 
-  if (data == 91110){   // SECTION A01 TRACK 01 ON-LINE
+  if (data == 91110){     // SECTION A01 TRACK 01 ON-LINE
      sectionA01status[0] = 0;// SECTION A01 TRACK 01 STATUS = 0
      sectionAstatus();
   }
-  if (data == 91120){   // SECTION A01 TRACK 02 ON-LINE
+  if (data == 91120){     // SECTION A01 TRACK 02 ON-LINE
      sectionA01status[1] = 0;// SECTION A01 TRACK 02 STATUS = 0
      sectionAstatus();
   }
-  if (data == 91130){   // SECTION A01 TRACK 03 ON-LINE
+  if (data == 91130){     // SECTION A01 TRACK 03 ON-LINE
      sectionA01status[2] = 0;// SECTION A01 TRACK 03 STATUS = 0
      sectionAstatus();
   }
-  if (data == 91111){   // SECTION A01 TRACK 01 OFF-LINE
+  if (data == 91111){     // SECTION A01 TRACK 01 OFF-LINE
     sectionA01status[0] = 1;// SECTION A01 TRACK 01 STATUS = 1
     sectionAstatus();
   }
-  if (data == 91121){   // SECTION A01 TRACK 02 OFF-LINE
+  if (data == 91121){     // SECTION A01 TRACK 02 OFF-LINE
     sectionA01status[1] = 1;// SECTION A01 TRACK 02 STATUS = 1
     sectionAstatus();
   }
-  if (data == 91131){   // SECTION A01 TRACK 03 OFF-LINE
+  if (data == 91131){     // SECTION A01 TRACK 03 OFF-LINE
     sectionA01status[2] = 1;// SECTION A01 TRACK 03 STATUS = 1
     sectionAstatus();
   }
-
-  
   if (data == 91213){     // SECTION A02 SENSOR TRACK 01 IMPULSE -> 1213 -> TRACK 01 ON-LINE
     Serial.println(1213);
     sectionA02status[0] = 0;
@@ -86,7 +84,7 @@ void TxRxData(){                // TxRxData TRANSMISION
 
 } // end void TxRxData()
 
-void sectionAstatus(){
+void sectionAstatus(){          // SECTION A01 & A02 STATUS
   Serial.print("SECTION A01 STATUS | ");
   Serial.print(sectionA01status[0]);
   Serial.print(" | ");
@@ -101,35 +99,42 @@ void sectionAstatus(){
   Serial.println(sectionA02status[2]);
 } // end void sectionAstatus()
 
-void MCUautoWork(){
+void MCUautoWork(){             // MCU AUTO WORK
+  switch(sectionA01status[0]){
+    case 0:
+      switch(sectionA01status[2]){
+        case 0:
+          if (sectionA01status[1] == 1 && sectionA02status[1] == 0){}
+          break;
+        case 1:
+          if (sectionA02status[0] == 1 && sectionA02status[2] == 0){}
+          if (sectionA01status[1] == 1 && sectionA02status[1] == 0){}
+          break;
+      } // end sectionA01status[2]
+      Serial.println(1013);
+      break;
+    case 1:
+      switch(sectionA01status[1]){
+        case 0:
+          if (sectionA01status[2] == 1 && sectionA02status[1] == 1){Serial.println(1023);}
+          break;
+        case 1:
+          switch(sectionA01status[2]){
+            case 0:
+              if (sectionA02status[1] == 0){Serial.println(1033);}
+              break;
+            case 1:
+              Serial.println("SECTION A OFF-LINE");
+              break;
+          } // end sectionA01status[2]
+          break;
+      } // end sectionA01status[1]
+      if (sectionA01status[2] == 0 && sectionA02status[0] == 0 && sectionA02status[2] == 1){
+        Serial.println(1033);
+      }
+      break;
+  } // end sectionA01status[0]
 
-  if (sectionA01status[0] == 0 && sectionA02status[0] == 1 && sectionA01status[2] == 1 && sectionA02status[2] == 0){
-    Serial.println(1013);
-    sectionAstatus();
-  }
-  if (sectionA01status[0] == 1 && sectionA02status[0] == 0 && sectionA01status[2] == 0 && sectionA02status[2] == 1){
-    Serial.println(1033);
-    sectionAstatus();
-  }
-  if (sectionA01status[0] == 1 && sectionA01status[1] == 0 && sectionA01status[2] == 1 && sectionA02status[1] == 1){
-    Serial.println(1023);
-    sectionAstatus();
-  }
-  if (sectionA01status[0] == 0 && sectionA01status[1] == 1 && sectionA01status[2] == 0 && sectionA02status[1] == 0){
-    Serial.println(1013);
-    sectionAstatus();
-  }
-  if (sectionA01status[0] == 1 && sectionA01status[1] == 1 && sectionA01status[2] == 0 && sectionA02status[1] == 0){
-    Serial.println(1033);
-    sectionAstatus();
-  }
-  if (sectionA01status[0] == 0 && sectionA01status[1] == 1 && sectionA01status[2] == 1 && sectionA02status[1] == 0){
-    Serial.println(1013);
-    sectionAstatus();
-  }
-  if (sectionA01status[0] == 1 && sectionA01status[1] == 1 && sectionA01status[2] == 1){
-    Serial.println("SECTION A OFF-LINE");
-  }
 } // end void MCUautoWork()
 
 void sensorLow() {              // MCU SENSORS WORK
