@@ -64,15 +64,20 @@ void setup() {                  // SEKTION A01 INITIAL SETTINGS
   sectionStatus();                    // EXECUTE void sectionStatus()
 
 } //  end void setup()
+
 void sectionStatus(){           // SECTION A01 STATUS
+  
   Serial.print(trackStatus[0]);
   Serial.print(" | ");
   Serial.print(trackStatus[1]);
   Serial.print(" | ");
   Serial.print(trackStatus[2]);
   Serial.println(" | ");
+  
 } // end void sectionStatus()
+
 void sensorLow() {              // SEKTION A01 SENSORS WORK
+  
   if(isSensorLow(sensorTrack1)){      // SENSOR TRACK 01 IMULSE -> 91113
     if (trackStatus[0] == 0){
       trackStatus[0] = 1;               // TRACK 01 STATUS OFF-LINE
@@ -103,8 +108,11 @@ void sensorLow() {              // SEKTION A01 SENSORS WORK
       Serial.println(91133);
     }
   }
+  
 } // end void sensorLow()
+
 void TxRxData() {               // TxRxData TRANSMISION
+  
   data = Serial.parseInt();
   delay(10);
 
@@ -113,6 +121,7 @@ void TxRxData() {               // TxRxData TRANSMISION
   if(data == 1033 || data == 1233) TRACK_03_setUp();  // TRACK 02 ON LINE
   
 } // end void TxRxData()
+
 void TRACK_01_setUp(){          // TRACK 01 ON-LINE -> 91110
   if (trackStatus[0] == 1){
       trackStatus[0] = 0;
@@ -139,6 +148,7 @@ void TRACK_01_setUp(){          // TRACK 01 ON-LINE -> 91110
       Serial.println(91110);
   }
 } // end void TRACK_01_setUp()
+
 void TRACK_02_setUp(){          // TRACK 02 ON-LINE -> 91120
   if (trackStatus[1] == 1){
       trackStatus[1] = 0;
@@ -165,6 +175,7 @@ void TRACK_02_setUp(){          // TRACK 02 ON-LINE -> 91120
       Serial.println(91120);
   }
 } // end void TRACK_02_setUp()
+
 void TRACK_03_setUp(){          // TRACK 03 ON-LINE -> 91130
   if (trackStatus[2] == 1){
       trackStatus[2] = 0;
@@ -191,6 +202,7 @@ void TRACK_03_setUp(){          // TRACK 03 ON-LINE -> 91130
       Serial.println(91130);
   }
 } // end void TRACK_03_setUp()
+
 void loop() {                   // WORK IN LOOP
 
   time = millis();
@@ -227,7 +239,9 @@ void loop() {                   // WORK IN LOOP
   } // end FLASHIG SEMAPHOR 3 GREEN
 
 } //  end void loop()
+
 bool isSensorLow(int sensor) {  // CONTACT VIBRATION PHENOMENO ELIMINATION
+  
   if (digitalRead(sensor) == LOW) {
     delay(delayIsSensorLow);
     if (digitalRead(sensor) == LOW) {
@@ -235,4 +249,5 @@ bool isSensorLow(int sensor) {  // CONTACT VIBRATION PHENOMENO ELIMINATION
     }
   }
   return false;
+  
 } // end bool isSensorLow()
