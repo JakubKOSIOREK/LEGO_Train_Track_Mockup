@@ -21,7 +21,7 @@ int servoL_Pin = 5;
 int servoR_Pin = 6;
 int posServoL = 58;
 int posServoR = 100;
-
+int trackStatus[3] = {1, 1, 1};
 
 //VARIABLES
 
@@ -41,35 +41,28 @@ void setup() {                  // INITIAL SETTINGS
   pinMode(sensorTrack3, INPUT_PULLUP);
   
   //SETTINGS
-
-  servoL.attach(servoL_Pin);
-  servoR.attach(servoR_Pin);
-  servoL.write(58);
-  servoR.write(100);
-  delay(100);
-  servoL.detach();
-  servoR.detach();
-
   Serial.println("SECTION A02 ON-LINE");
-    
-} //  end void setup()
+  sectionStatus();                    // EXECUTE void sectionStatus()
+  TRACK_02_setUp();                   // EXECUTE void TRACK_02_setUp()
+  
+} // end void setup()
 
 void sensorLow(){               // SEKTION A02 SENSORS WORK
   if (isSensorLow(sensorTrack1)){   // SENSOR TRACK 01 IMPULSE -> TRACK 01 EMPTY
     TRACK_01_setUp();
     Serial.println(91213);
     delay(100);
-  }// end if (isSensorLow(sensorTrack1))
-  if (isSensorLow(sensorTrack2)){   // SENSOR TRACK 02 IMPULSE -> TRACK 02 EMPTY
+  }
+  if (isSensorLow(sensorTrack2)){   // SENSOR TRACK 02 IMPULSE -> TRACK 02 STATUS = 0
     TRACK_02_setUp();
     Serial.println(91223);
-    delay(100);    
-  }// end if (isSensorLow(sensorTrack2))
+    delay(100);
+  }
   if (isSensorLow(sensorTrack3)){   // SENSOR TRACK 03 IMPULSE -> TRACK 03 EMPTY
     TRACK_03_setUp();
     Serial.println(91233);
     delay(100);
-  }// end if (isSensorLow(sensorTrack3))
+  }
 } // end void sensorLow()
 
 void TxRxData(){                // TxRxData TRANSMISION
@@ -95,6 +88,11 @@ void TRACK_01_setUp(){          // TRACK 01 ON-LINE
   delay(100);
   servoL.detach();                                    // TUTN OFF SERVO L
   servoR.detach();                                    // TUTN OFF SERVO R
+  Serial.println("TRACK 01 SWITCHED ON-LINE");
+  trackStatus[0] = 0;                                 // TRACK 01 STATUS ON-LINE  
+  trackStatus[1] = 1;                                 // TRACK 02 STATUS OFF-LINE
+  trackStatus[2] = 1;                                 // TRACK 03 STATUS OFF-LINE  
+  sectionStatus();
 } // end void TRACK_01_setUp()
 
 void TRACK_02_setUp(){          // TRACK 02 ON-LINE
@@ -109,6 +107,11 @@ void TRACK_02_setUp(){          // TRACK 02 ON-LINE
   delay(100);
   servoL.detach();                                    // TUTN OFF SERVO L
   servoR.detach();                                    // TUTN OFF SERVO R
+  Serial.println("TRACK 02 SWITCHED ON-LINE");
+  trackStatus[0] = 1;                                 // TRACK 01 STATUS OFF-LINE  
+  trackStatus[1] = 0;                                 // TRACK 02 STATUS ON-LINE
+  trackStatus[2] = 1;                                 // TRACK 03 STATUS OFF-LINE  
+  sectionStatus();
 } // end void TRACK_02_setUp()
 
 void TRACK_03_setUp(){          // TRACK 03 ON-LINE
@@ -123,7 +126,21 @@ void TRACK_03_setUp(){          // TRACK 03 ON-LINE
   delay(100);
   servoL.detach();                                    // TUTN OFF SERVO L
   servoR.detach();                                    // TUTN OFF SERVO R
+  Serial.println("TRACK 03 SWITCHED ON-LINE");
+  trackStatus[0] = 1;                                 // TRACK 01 STATUS ON-LINE  
+  trackStatus[1] = 1;                                 // TRACK 02 STATUS OFF-LINE
+  trackStatus[2] = 0;                                 // TRACK 03 STATUS OFF-LINE  
+  sectionStatus();
 } // end void TRACK_03_setUp()
+
+void sectionStatus(){           // SECTION A02 STATUS
+  Serial.println("SECTION A02 STATUS");
+  Serial.print(trackStatus[0]);
+  Serial.print(" | ");
+  Serial.print(trackStatus[1]);
+  Serial.print(" | ");
+  Serial.println(trackStatus[2]);
+} // end void sectionStatus()
 
 void loop() {                   // WORK IN LOOP
 

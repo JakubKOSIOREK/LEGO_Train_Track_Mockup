@@ -79,62 +79,41 @@ void setup() {                  // SEKTION A01 INITIAL SETTINGS
   digitalWrite(led3RED,   HIGH);
   digitalWrite(led3GREEN, HIGH);
   delay(500);
-    
-  servoL.attach(servoL_Pin);
-  servoR.attach(servoR_Pin);
-  servoL.write(58);
-  servoR.write(100);
-  delay(1000);
-  servoL.detach();
-  servoR.detach();
-
-  // TRACK 02 ON-LINE SEMAPHORES
-  digitalWrite(led1RED,   LOW);   // SEMAPHOR TRACK 01 RED   ON
-  digitalWrite(led1GREEN, HIGH);  // SEMAPHOR TRACK 01 GREEN OFF
-  digitalWrite(led2RED,   HIGH);  // SEMAPHOR TRACK 02 RED   OFF
-  digitalWrite(led2GREEN, LOW);   // SEMAPHOR TRACK 02 GREEN ON
-  digitalWrite(led3RED,   LOW);   // SEMAPHOR TRACK 03 RED   ON
-  digitalWrite(led3GREEN, HIGH);  // SEMAPHOR TRACK 03 GREEN OFF
 
   led1GREENflashing = 1;              // SEMAPHOR TRACK 01 GREEN START FLASHING
   led3GREENflashing = 1;              // SEMAPHOR TRACK 03 GREEN START FLASHING
-  
   Serial.println("SECTION A01 ON-LINE");
-  Serial.println("SECTION A STATUS");
-  Serial.print(trackStatus[0]);
-  Serial.print(" | ");
-  Serial.print(trackStatus[1]);
-  Serial.print(" | ");
-  Serial.println(trackStatus[2]);
+  sectionStatus();                    // EXECUTE void sectionStatus()
+  digitalWrite(led2RED,   LOW);
+  TRACK_02_setUp();                   // EXECUTE void TRACK_02_setUp()
 
 } //  end void setup()
 
 void sensorLow() {              // SEKTION A01 SENSORS WORK
-
-  if(isSensorLow(sensorTrack1)){      // SENSOR TRACK 01 IMULSE -> TRACK 01 BUSY
-    trackStatus[0] = 1;               // TRACK 01 BUSY
+  if(isSensorLow(sensorTrack1)){      // SENSOR TRACK 01 IMULSE -> TRACK 01 STATUS = 1
+    trackStatus[0] = 1;               // TRACK 01 STATUS OFF-LINE
     led1GREENflashing = 1;            // SEMAPHOR TRACK 01 GREEN START FLASHING
     digitalWrite(led1RED, LOW);       // SEMAPHOR TRACK 01 RED OFF
-    Serial.println("TRACK 01 IS BUSY");
+    Serial.println("TRACK 01 IS OFF-LINE");
+    Serial.println(91111);
     sectionStatus();
   }
-
-  if(isSensorLow(sensorTrack2)){      // SENSOR TRACK 02 IMULSE -> TRACK 02 BUSY
-    trackStatus[1] = 1;               // TRACK 02 BUSY
-    led2GREENflashing = 1;            // SEMAPHOR TRACK 1 GREEN START FLASHING
-    digitalWrite(led2RED, LOW);       // SEMAPHOR TRACK 1 RED OFF
-    Serial.println("TRACK 02 IS BUSY");
+  if(isSensorLow(sensorTrack2)){      // SENSOR TRACK 02 IMULSE -> TRACK 02 STATUS = 1
+    trackStatus[1] = 1;               // TRACK 02 STATUS OFF-LINE
+    led2GREENflashing = 1;            // SEMAPHOR TRACK 02 GREEN START FLASHING
+    digitalWrite(led2RED, LOW);       // SEMAPHOR TRACK 02 RED OFF
+    Serial.println("TRACK 02 IS OFF-LINE");
+    Serial.println(91121);
     sectionStatus();
   }
-
-  if(isSensorLow(sensorTrack3)){      // SENSOR TRACK 03 IMULSE -> TRACK 03 BUSY
-    trackStatus[2] = 1;               // TRACK 03 BUSY
+  if(isSensorLow(sensorTrack3)){      // SENSOR TRACK 03 IMULSE -> TRACK 03 STATUS = 1
+    trackStatus[2] = 1;               // TRACK 03 STATUS OFF-LINE
     led3GREENflashing = 1;            // SEMAPHOR TRACK 03 GREEN START FLASHING
     digitalWrite(led3RED, LOW);       // SEMAPHOR TRACK 03 RED OFF
-    Serial.println("TRACK 03 IS BUSY");
+    Serial.println("TRACK 03 IS OFF-LINE");
+    Serial.println(91131);
     sectionStatus();
   }
-
 } // end void sensorLow()
 
 void TxRxData() {               // TxRxData TRANSMISION
@@ -148,7 +127,7 @@ void TxRxData() {               // TxRxData TRANSMISION
   
 } // end void TxRxData()
 
-void TRACK_01_setUp(){          // TRACK 01 ON-LINE
+void TRACK_01_setUp(){          // TRACK 01 ON-LINE -> TRACK 01 STATUS = 0
   switch(digitalRead(led1RED)){         // IF SEMAPHOR TRACK 01 RED IS
     case LOW:                                   // ON, DO IT
       led1GREENflashing = 0;                                  // SEMAPHOR TRACK 01 GREEN STOP FLASHINK
@@ -169,18 +148,19 @@ void TRACK_01_setUp(){          // TRACK 01 ON-LINE
       delay(100);
       servoL.detach();                                        // TUTN OFF SERVO L
       servoR.detach();                                        // TUTN OFF SERVO R
-      trackStatus[0] = 0;                                     // TRACK 01 EMPTY
-      Serial.println("TRACK 01 ON-LINE");
+      trackStatus[0] = 0;                                     // TRACK 01 STATUS ON-LINE
+      Serial.println("TRACK 01 SWITCHED ON-LINE");
       break;
     case HIGH:                                  // OFF, DO IT
-      trackStatus[0] = 0;                                     // TRACK 01 EMPTY      
+      trackStatus[0] = 0;                                     // TRACK 01 STATUS ON-LINE
+      Serial.println("TRACK 01 IS ON-LINE");
       break;
     }
-    Serial.println("TRACK 01 IS EMPTY");
+    Serial.println(91110);
     sectionStatus();
 } // end void TRACK_01_setUp()
 
-void TRACK_02_setUp(){          // TRACK 02 ON-LINE
+void TRACK_02_setUp(){          // TRACK 02 ON-LINE -> TRACK 02 STATUS = 0
   switch(digitalRead(led2RED)){         // IF SEMAPHOR TRACK 02 RED IS
     case LOW:                                   // ON, DO IT
       led2GREENflashing = 0;                                  // SEMAPHOR TRACK 02 GREEN STOP FLASHINK
@@ -201,18 +181,19 @@ void TRACK_02_setUp(){          // TRACK 02 ON-LINE
       delay(100);
       servoL.detach();                                        // TUTN OFF SERVO L
       servoR.detach();                                        // TUTN OFF SERVO R
-      trackStatus[1] = 0;                                     // TRACK 02 EMPTY
-      Serial.println("TRACK 02 ON-LINE");
+      trackStatus[1] = 0;                                     // TRACK 02 STATUS ON-LINE
+      Serial.println("TRACK 02 SWITCHED ON-LINE");
       break;
     case HIGH:                                  // OFF, DO IT
-      trackStatus[1] = 0;                                     // TRACK 02 EMPTY
+      trackStatus[1] = 0;                                     // TRACK 02 STATUS ON-LINE
+      Serial.println("TRACK 02 IS ON-LINE");
       break;
     }
-    Serial.println("TRACK 02 IS EMPTY");
+    Serial.println(91120);
     sectionStatus();
 } // end void TRACK_02_setUp()
 
-void TRACK_03_setUp(){          // TRACK 03 ON-LINE
+void TRACK_03_setUp(){          // TRACK 03 ON-LINE -> TRACK 03 STATUS = 0
   switch(digitalRead(led3RED)){         // IF SEMAPHOR TRACK 03 RED IS
     case LOW:                                   // ON, DO IT
       led3GREENflashing = 0;                                  // SEMAPHOR TRACK 03 GREEN STOP FLASHINK
@@ -233,35 +214,25 @@ void TRACK_03_setUp(){          // TRACK 03 ON-LINE
       delay(100);
       servoL.detach();                                        // TUTN OFF SERVO L
       servoR.detach();                                        // TUTN OFF SERVO R
-      trackStatus[2] = 0;                                     // TRACK 03 EMPTY
-      Serial.println("TRACK 03 ON-LINE");
+      trackStatus[2] = 0;                                     // TRACK 03 STATUS ON-LINE
+      Serial.println("TRACK 03 SWITCHED ON-LINE");
       break;
     case HIGH:                                  // OFF, DO IT
-      trackStatus[2] = 0;                                     // TRACK 03 EMPTY
+      trackStatus[2] = 0;                                     // TRACK 03 STATUS ON-LINE
+      Serial.println("TRACK 03 IS ON-LINE");
       break;
     }
-    Serial.println("TRACK 03 IS EMPTY");
+    Serial.println(91130);
     sectionStatus();
 } // end void TRACK_03_setUp()
 
-void sectionStatus(){           // SECTION A STATUS (BUSY / EMPTY)
-  Serial.println("SECTION A STATUS");
+void sectionStatus(){           // SECTION A01 STATUS
+  Serial.println("SECTION A01 STATUS");
   Serial.print(trackStatus[0]);
   Serial.print(" | ");
   Serial.print(trackStatus[1]);
   Serial.print(" | ");
   Serial.println(trackStatus[2]);
-
-  if (trackStatus[0] == 1 && trackStatus[1] == 1 && trackStatus[2] == 1){   // SECTION A BUSY 91151
-    Serial.println("SECTION A IS BUSY");
-    Serial.println(91151);
-  }
-
-  if (trackStatus[0] == 0 || trackStatus[1] == 0 || trackStatus[2] == 0){   // SECTION A EMPTY 91150
-    Serial.println("SECTION A IS EMPTY");
-    Serial.println(91150);
-  }
-
 } // end void sectionStatus()
 
 void loop() {                   // WORK IN LOOP
