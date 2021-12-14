@@ -41,27 +41,27 @@ void TxRxData(){                // TxRxData TRANSMISION
 
   if (data == 91110){     // SECTION A01 TRACK 01 ON-LINE
      sectionA01status[0] = 0;// SECTION A01 TRACK 01 STATUS = 0
-     sectionAstatus();
+//     sectionAstatus();
   }
   if (data == 91120){     // SECTION A01 TRACK 02 ON-LINE
      sectionA01status[1] = 0;// SECTION A01 TRACK 02 STATUS = 0
-     sectionAstatus();
+//     sectionAstatus();
   }
   if (data == 91130){     // SECTION A01 TRACK 03 ON-LINE
      sectionA01status[2] = 0;// SECTION A01 TRACK 03 STATUS = 0
-     sectionAstatus();
+//     sectionAstatus();
   }
   if (data == 91111){     // SECTION A01 TRACK 01 OFF-LINE
     sectionA01status[0] = 1;// SECTION A01 TRACK 01 STATUS = 1
-    sectionAstatus();
+//    sectionAstatus();
   }
   if (data == 91121){     // SECTION A01 TRACK 02 OFF-LINE
     sectionA01status[1] = 1;// SECTION A01 TRACK 02 STATUS = 1
-    sectionAstatus();
+//    sectionAstatus();
   }
   if (data == 91131){     // SECTION A01 TRACK 03 OFF-LINE
     sectionA01status[2] = 1;// SECTION A01 TRACK 03 STATUS = 1
-    sectionAstatus();
+//    sectionAstatus();
   }
   if (data == 91213){     // SECTION A02 SENSOR TRACK 01 IMPULSE -> 1213 -> TRACK 01 ON-LINE
     Serial.println(1213);
@@ -133,6 +133,7 @@ void MCUautoWork(){             // MCU AUTO WORK
         Serial.println(1033);
       }
       break;
+      sectionAstatus();
   } // end sectionA01status[0]
 
 } // end void MCUautoWork()
@@ -144,7 +145,7 @@ void sensorLow() {              // MCU SENSORS WORK
     sectionA02status[0] = 0;
     sectionA02status[1] = 1;
     sectionA02status[2] = 1;
-    sectionAstatus();
+//    sectionAstatus();
   }
   if (isSensorLow(pushButton_2)){     // PUSHBUTTON 2 IMPULSE 1023
     delay(500);
@@ -152,7 +153,7 @@ void sensorLow() {              // MCU SENSORS WORK
     sectionA02status[0] = 1;
     sectionA02status[1] = 0;
     sectionA02status[2] = 1;
-    sectionAstatus();    
+//    sectionAstatus();    
   }
   if (isSensorLow(pushButton_3)){     // PUSHBUTTON 3 IMPULSE 1033
     delay(500);
@@ -160,7 +161,7 @@ void sensorLow() {              // MCU SENSORS WORK
     sectionA02status[0] = 1;
     sectionA02status[1] = 1;
     sectionA02status[2] = 0;
-    sectionAstatus();
+//    sectionAstatus();
   }
   if (isSensorLow(sensorMCU01)){
     delay(500);
