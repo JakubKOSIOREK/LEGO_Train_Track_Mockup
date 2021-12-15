@@ -208,8 +208,8 @@ bool isSensorLow(int sensor) {  // CONTACT VIBRATION PHENOMENO ELIMINATION
     delay(delayIsSensorLow);
     if (digitalRead(sensor) == LOW) {
       return true;
+      }
     }
-  }
-  return false;
+    return false;
   
 } // end bool isSensorLow()
